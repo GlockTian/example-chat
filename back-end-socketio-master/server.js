@@ -2,32 +2,30 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 let ROOMS = [
-    {
-        name: "Global chat",
-        participants: 0,
-        id: 0,
-        sockets: [],
-    },
-    {
-        name: "Funny",
-        participants: 0,
-        id: 1,
-        sockets: [],
-    },
-    ];
-    
-    
-    
-    function createRoom({ name }) {
-        const room = {
-            name: name,
-            participants: 0,
-            id: 1,
-            sockets: [],
-        };
-        articles.push(article);
-        return article;
-    }
+  {
+    name: "Global chat",
+    participants: 0,
+    id: 0,
+    sockets: [],
+  },
+  {
+    name: "Funny",
+    participants: 0,
+    id: 1,
+    sockets: [],
+  },
+];
+
+function createRoom({ name }) {
+  const room = {
+    name: name,
+    participants: 0,
+    id: 1,
+    sockets: [],
+  };
+  articles.push(article);
+  return article;
+}
 
 let app = express();
 let http = createServer(app);
@@ -38,7 +36,6 @@ const io = new Server(http, {
     methods: ["GET", "POST"],
   },
 });
-
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -99,12 +96,12 @@ app.get("/getChannels", (req, res) => {
   });
 });
 
+app.post("/createRoom", (req, res) => {
+  const { name } = req.body;
+  const newRoom = createRoom({ name });
 
-app.post("/createRoom", (req, res) => { 
-    const { name} = req.body;
-    const newRoom = createRoom({ name });
-
-    res.status(HTTP_CREATED)
-        .header('Location', `/room/${newRoom.id}`)
-        .json(newRoom);
+  res
+    .status(HTTP_CREATED)
+    .header("Location", `/room/${newRoom.id}`)
+    .json(newRoom);
 });
