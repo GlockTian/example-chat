@@ -54,7 +54,8 @@ export class Chat extends React.Component {
     loadChannels = async () => {
         fetch('http://localhost:8080/getChannels').then(async response => {
             let data = await response.json();
-            this.setState({ channels: data.channels });
+            let channelsss = data.channels
+            this.setState({ channels: channelsss });
         })
     }
 
